@@ -6,7 +6,7 @@
     "test": "npm run test:report",
     "test:e2e": "npx cypress run",
     "report:pre": "powershell -Command \"if (Test-Path cypress/reports) { Remove-Item -Recurse -Force cypress/reports }\"",
-    "report:pre-ci": "rm -rf cypress/reports",
+    "report:pre-ci": "rimraf cypress/reports",
     "report:pdf": "node scripts/generate-pdf.js",
     "test:report": "npm run report:pre && npm run test:e2e && npm run report:pdf"
   },
@@ -22,6 +22,7 @@
     "mochawesome": "^7.1.4",
     "mochawesome-merge": "^5.1.1",
     "mochawesome-report-generator": "^6.3.2",
-    "puppeteer": "^24.37.5"
+    "puppeteer": "^24.37.5",
+    "rimraf": "^6.1.3"
   }
 }
