@@ -16,23 +16,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-with-version: '20'
+          node-version: '20'
           cache: 'npm'
+
+      - name: Install Puppeteer dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2 libpango-1.0-0 libpangocairo-1.0-0
 
       - name: Install dependencies
         run: npm install
 
       - name: Run Cypress tests and generate PDF
-        # We use a custom run command to ensure puppeteer has necessary dependencies in ubuntu
-        # and to run our orchestrated report script. 
-        # Note: 'npm run test:report' uses powershell in our local scripts. 
-        # For CI (Ubuntu), we should ensure the scripts are compatible or provide a CI-specific script.
         run: |
           npm run report:pre-ci || true
           npx cypress run
           node scripts/generate-pdf.js
         env:
-          # Use a headless browser for CI
           CYPRESS_BROWSER: chrome
 
       - name: Upload PDF Report
